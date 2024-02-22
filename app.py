@@ -43,6 +43,3 @@ else:
     st.write("No image uploaded. Please upload an image!")
 
     st.plotly_chart(fig)
-
-else:
-    st.write("No image uploaded. Please upload an image!")
