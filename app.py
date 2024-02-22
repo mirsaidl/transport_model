@@ -4,12 +4,8 @@ import pathlib
 import plotly.express as px
 import platform
 
-plt = platform.system()
-if plt == 'Windows': pathlib.PosixPath = pathlib.WindowsPath
-
-# Check the platform and modify pathlib behavior for WindowsPath on non-Windows systems
-# if platform.system() != 'Windows':
-#    pathlib.WindowsPath = pathlib.PosixPath
+temp = pathlib.PosixPath
+pathlib.PosixPath = pathlib.WindowsPath
 
 # Title for the Streamlit app
 st.title("Transportation Classification Model by Mirsaid")
