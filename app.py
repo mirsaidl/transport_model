@@ -3,9 +3,6 @@ import streamlit as st
 import pathlib
 import plotly.express as px
 import platform
-from fastai.learner import load_learner
-from pathlib import Path
-import os
 
 plt = platform.system()
 if plt == 'Linux' : pathlib.WindowsPath = pathlib.PosixPath
@@ -19,10 +16,9 @@ if file is not None:
     st.image(file)
     img  = PILImage.create(file)
     
-    # model
-    model_path = os.path.join('transport_model.pkl')
+    
     # Load the learner
-    model = load_learner(model_path)
+    model = load_learner("transport_model.pkl")
 
     
     # text
