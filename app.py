@@ -7,6 +7,19 @@ import platform
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
+
+from contextlib import contextmanager
+import pathlib
+
+@contextmanager
+def set_posix_windows():
+    posix_backup = pathlib.PosixPath
+    try:
+        pathlib.PosixPath = pathlib.WindowsPath
+        yield
+    finally:
+        pathlib.PosixPath = posix_backup
+
 EXPORT_PATH = pathlib.Path("transport_model.pkl")
 # Title for the Streamlit app
 st.title("Transportation Classification Model by Mirsaid")
