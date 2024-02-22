@@ -2,9 +2,11 @@ from fastai.vision.all import *
 import streamlit as st
 import pathlib
 import plotly.express as px
+import platform
 
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+plt = platform.system()
+if plt == 'Linux' : pathlib.WindowsPath = pathlib.PosixPath
+
 st.title("Transportation Classification Model by Mirsaid")
 file = st.file_uploader('Upload Picture', type=['png','jpeg', 'gif', 'svg'])
 
