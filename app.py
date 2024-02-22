@@ -2,6 +2,7 @@ from fastai.vision.all import *
 import streamlit as st
 import pathlib
 import plotly.express as px
+import platform
 
 # Check the platform and modify pathlib behavior for WindowsPath on non-Windows systems
 if platform.system() != 'Windows':
@@ -36,6 +37,11 @@ if file is not None:
         yaxis_title="Probability (%)",  # Label for the y-axis
         xaxis_title="Categories"        # Label for the x-axis
     )
+    st.plotly_chart(fig)
+
+else:
+    st.write("No image uploaded. Please upload an image!")
+
     st.plotly_chart(fig)
 
 else:
