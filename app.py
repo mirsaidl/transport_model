@@ -2,37 +2,41 @@ from fastai.vision.all import *
 import streamlit as st
 import pathlib
 import plotly.express as px
-import platform
 
-plt = platform.system()
-if plt == 'Linux' : pathlib.WindowsPath = pathlib.PosixPath
+# Check the platform and modify pathlib behavior for WindowsPath on non-Windows systems
+if platform.system() != 'Windows':
+    pathlib.WindowsPath = pathlib.PosixPath
 
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+# Title for the Streamlit app
 st.title("Transportation Classification Model by Mirsaid")
-file = st.file_uploader('Upload Picture', type=['png','jpeg', 'gif', 'svg'])
 
-# PIL convert
+# File uploader for image
+file = st.file_uploader('Upload Picture', type=['png', 'jpeg', 'gif', 'svg'])
+
 if file is not None:
-    # PIL convert
+    # Display the uploaded image using PIL
     st.image(file)
-    img  = PILImage.create(file)
-    
-    # model
+
+    # Convert the uploaded file to a PILImage
+    img = PILImage.create(file)
+
+    # Load the trained model
     model = load_learner('transport_model.pkl')
+
+    # Get prediction and probabilities
     pred, pred_id, probs = model.predict(img)
-    
-    # text
-    st.success(f"Prediction:  {pred}")
+
+    # Display prediction and probability
+    st.success(f"Prediction: {pred}")
     st.info(f"Probability: {probs[pred_id]*100:.1f}%")
-    
-    
-    fig = px.bar(y=probs*100, x=model.dls.vocab)
+
+    # Create a bar chart using Plotly Express
+    fig = px.bar(x=model.dls.vocab, y=probs*100)
     fig.update_layout(
-    yaxis_title="Probability(%)",  # Label for the y-axis
-    xaxis_title="Categories"        # Label for the x-axis
+        yaxis_title="Probability (%)",  # Label for the y-axis
+        xaxis_title="Categories"        # Label for the x-axis
     )
     st.plotly_chart(fig)
 
 else:
-    st.write("No image uploaded. Please upload image!")
+    st.write("No image uploaded. Please upload an image!")
