@@ -35,14 +35,13 @@ if file is not None:
     st.info(f"Probability: {probs[pred_id]*100:.1f}%")
 
     # Create a bar chart using Plotly Express
-    fig = px.bar(x=model.dls.vocab, y=probs*100)
+     
+    fig = px.bar(y=probs*100, x=model.dls.vocab)
     fig.update_layout(
-        yaxis_title="Probability (%)",  # Label for the y-axis
-        xaxis_title="Categories"        # Label for the x-axis
+    yaxis_title="Probability(%)",  # Label for the y-axis
+    xaxis_title="Categories"        # Label for the x-axis
     )
     st.plotly_chart(fig)
 
 else:
     st.write("No image uploaded. Please upload an image!")
-
-    st.plotly_chart(fig)
