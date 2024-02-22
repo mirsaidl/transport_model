@@ -7,6 +7,7 @@ import platform
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
+EXPORT_PATH = pathlib.Path("transport_model.pkl")
 # Title for the Streamlit app
 st.title("Transportation Classification Model by Mirsaid")
 
@@ -21,7 +22,9 @@ if file is not None:
     img = PILImage.create(file)
 
     # Load the trained model
-    model = load_learner('transport_model.pkl')
+    with set_posix_windows():
+        learn_inf = load_learner(EXPORT_PATH)
+
 
     # Get prediction and probabilities
     pred, pred_id, probs = model.predict(img)
