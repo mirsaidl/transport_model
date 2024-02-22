@@ -7,32 +7,20 @@ import platform
 plt = platform.system()
 if plt == 'Linux' : pathlib.WindowsPath = pathlib.PosixPath
 
+temp = pathlib.PosixPath
+pathlib.PosixPath = pathlib.WindowsPath
 st.title("Transportation Classification Model by Mirsaid")
 file = st.file_uploader('Upload Picture', type=['png','jpeg', 'gif', 'svg'])
 
 # PIL convert
-
-def load_model():
-    model_file_path = "transport_model.pkl"
-
-    # Open the file in binary mode
-    with open(model_file_path, 'rb') as model_file:
-        # Load the model using torch.load and specify map_location if needed
-        model = torch.load(model_file, map_location=torch.device('cpu'))
-    
-    return model
-
 if file is not None:
     # PIL convert
     st.image(file)
     img  = PILImage.create(file)
     
-    # Function to load model
-
-
-    # Load the model
-    model = load_model()
-
+    # model
+    model = load_learner('transport_model.pkl')
+    pred, pred_id, probs = model.predict(img)
     
     # text
     st.success(f"Prediction:  {pred}")
@@ -48,4 +36,3 @@ if file is not None:
 
 else:
     st.write("No image uploaded. Please upload image!")
-
