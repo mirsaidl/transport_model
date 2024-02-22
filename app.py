@@ -5,9 +5,7 @@ import plotly.express as px
 import platform
 from fastai.learner import load_learner
 from pathlib import Path
-
-
-
+import os
 
 plt = platform.system()
 if plt == 'Linux' : pathlib.WindowsPath = pathlib.PosixPath
@@ -22,10 +20,11 @@ if file is not None:
     img  = PILImage.create(file)
     
     # model
-    # Convert the model path to a string
-    model_path = str(Path('transport_model.pkl'))
+    model_path = os.path.join('transport_model.pkl')
     # Load the learner
     model = load_learner(model_path)
+
+    
     # text
     st.success(f"Prediction:  {pred}")
     st.info(f"Probability: {probs[pred_id]*100:.1f}%")
