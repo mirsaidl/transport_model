@@ -4,9 +4,8 @@ import pathlib
 import plotly.express as px
 import platform
 
-# Check the platform and modify pathlib behavior for WindowsPath on non-Windows systems
-if platform.system() != 'Windows':
-    pathlib.WindowsPath = pathlib.PosixPath
+temp = pathlib.PosixPath
+pathlib.PosixPath = pathlib.WindowsPath
 
 # Title for the Streamlit app
 st.title("Transportation Classification Model by Mirsaid")
@@ -22,28 +21,21 @@ if file is not None:
     img = PILImage.create(file)
 
     # Load the trained model
-    try:
-        model = load_learner('transport_model.pkl')
-    except Exception as e:
-        st.error(f"Error loading the model: {e}")
-        st.stop()
+    model = load_learner('transport_model.pkl')
 
     # Get prediction and probabilities
-    try:
-        pred, pred_id, probs = model.predict(img)
-    except Exception as e:
-        st.error(f"Error predicting: {e}")
-        st.stop()
+    pred, pred_id, probs = model.predict(img)
 
     # Display prediction and probability
     st.success(f"Prediction: {pred}")
     st.info(f"Probability: {probs[pred_id]*100:.1f}%")
 
     # Create a bar chart using Plotly Express
-    fig = px.bar(x=model.dls.vocab, y=probs*100)
+     
+    fig = px.bar(y=probs*100, x=model.dls.vocab)
     fig.update_layout(
-        yaxis_title="Probability (%)",  # Label for the y-axis
-        xaxis_title="Categories"        # Label for the x-axis
+    yaxis_title="Probability(%)",  # Label for the y-axis
+    xaxis_title="Categories"        # Label for the x-axis
     )
     st.plotly_chart(fig)
 
