@@ -21,7 +21,7 @@ if file is not None:
     img = PILImage.create(file)
 
     # Load the trained model
-    model = load_learner("C:\Users\Mirsaid\Desktop\transport_pro\transport_model.pkl")
+    model = load_learner("transport_model.pkl")
 
     # Get prediction and probabilities
     pred, pred_id, probs = model.predict(img)
