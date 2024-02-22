@@ -1,2 +1,3 @@
 fastai
 plotly
+platform
